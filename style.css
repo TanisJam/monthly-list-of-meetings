@@ -7,7 +7,9 @@
 
 
 .list {
-    max-width: 25rem;
+    width: 21rem;
+    max-width: 95%;
+    min-width: 17rem;
     margin: 5rem auto 2rem auto;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;

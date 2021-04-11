@@ -167,79 +167,83 @@ function getWeekDay(date) {
     return days[date];
 }
 
-/*
-template: 
-    list = [
-        {
-            "number": 1,
-            "day": "Jueves",
-            "hour": "09:30",
-            "director": "Juan"
-        },
-        {
-            "number": 1,
-            "day": "Jueves",
-            "hour": "18:00",
-            "director": "Pedro"
-        },
-        {
-            "number": 2,
-            "day": "Viernes",
-            "hour": "09:30",
-            "director": "Raulo"
-        }
-    ]  
-*/
 
-
-/*for (const day in week) {
-
-    for (const meeting in week[day]) {
-
-        if (week[day][meeting]) {
-
-            console.log(week[day][meeting]);
-        }
-    }
-}*/
-
+//--Outlines of a function to generate the list
 list = []
 let dayStart = 4;
 
-for (let x = 0; x < 15; x++) {
+for (let x = 0; x < 18; x++) {
 
-    for (const session in week[dayStart]) {
+    //keep day under 6 for pick week days
+    let day;
+    if (dayStart <= 6) {
+        day = dayStart;
+    } else {
+        day = dayStart % 6 - Math.floor(dayStart / 6);
+    }
+    console.log(day);
 
-        if (week[dayStart][session]) {
+    for (const session in week[day]) {
 
+        if (week[day][session]) {
+
+            //Get a director for meeting give the properties of them
             let arrayLen = Object.keys(persons);
             let randomKey = arrayLen[Math.floor(Math.random() * arrayLen.length)];
             let director = randomKey;
-            //console.log(director);
+
 
             let meeting = {
                 "number": dayStart,
-                "day": getWeekDay(dayStart),
-                "hour": week[dayStart][session],
+                "day": getWeekDay(day),
+                "hour": week[day][session],
                 "director": director
             }
 
-            //console.log(meeting);
             list.push(meeting);
         }
 
     }
 
-    //keep loop for days in week
-    if (dayStart < 6) {
-        dayStart++;
-    } else {
-        dayStart = 0;
-    }
+    dayStart++;
+
 
 }
 
 console.log(list);
+//--
+
+
+//--Function that prints out the list
+let listContainer = document.querySelector(".list");
+
+list.forEach((element, i) => {
+    let div = document.createElement("div");
+    div.classList.add("row");
+    if (i % 2) { div.classList.add("row-dark") };
+
+    let number = document.createElement("p");
+    number.innerText = element.number.toString();
+    div.appendChild(number);
+
+    let day = document.createElement("p");
+    day.innerText = element.day;
+    div.appendChild(day);
+
+    let hour = document.createElement("p");
+    hour.innerText = element.hour;
+    div.appendChild(hour);
+
+    let director = document.createElement("p");
+    director.innerText = element.director;
+    div.appendChild(director);
+
+    listContainer.appendChild(div);
+
+});
+
+//--
+
 
 
 function generateTemplate(year, month, day) {
